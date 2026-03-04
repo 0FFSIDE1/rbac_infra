@@ -1,0 +1,11 @@
+include LICENSE
+include README.md
+
+recursive-include rbac_infra/migrations *.py
+
+prune tests
+exclude pytest.ini
+exclude .env
+exclude .gitignore
+exclude Makefile
+exclude requirements.txt
