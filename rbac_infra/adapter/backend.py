@@ -1,7 +1,6 @@
 """
-Django adapter for RBAC Infra.
-Provides Django ORM-based implementations of the RoleRepository and PermissionRepository interfaces, allowing the core RBAC logic to interact with Django models for roles and permissions.
-This module also includes the RBACBackend class which integrates the core RBACService with the Django-based repositories and caching layer.
+Django RBAC Backend Adapter
+This module provides a Django-compatible authentication backend that integrates with the core RBAC service. It uses the Django ORM to fetch user roles and permissions, and implements the has_perm method to check permissions based on the RBAC logic. The backend also supports caching permissions using a Redis cache for improved performance.
 """
 from django.contrib.auth.backends import BaseBackend
 from typing import Optional, Any
@@ -18,6 +17,8 @@ class RBACBackend(BaseBackend):
     Django-compatible RBAC authorization backend.
     Permission format:
         "tenant:action:resource"
+    Example:
+        "tenant1:read:invoice"
     """
 
     def __init__(self):
@@ -33,6 +34,11 @@ class RBACBackend(BaseBackend):
         perm: str,
         obj: Optional[Any] = None,
     ) -> bool:
+        """
+        Check if the user has the specified permission.
+        Permission format: tenant:action:resource
+        Context can include the object being accessed for more complex policies.
+        """
 
         # Fail closed
         if not user_obj or isinstance(user_obj, AnonymousUser):

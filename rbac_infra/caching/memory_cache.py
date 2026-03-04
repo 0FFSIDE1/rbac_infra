@@ -1,6 +1,7 @@
 """
 Caching backends for RBAC Infra.
 Provides in-memory and Redis-based caching implementations for role and permission data.
+The InMemoryCache class is a simple implementation that stores cache entries in a Python dictionary with expiration handling. The RedisCache class uses the Redis key-value store to manage cache entries, allowing for distributed caching across multiple instances of the RBAC service. Both classes implement the CacheBackend interface defined in the caching/interfaces.py module, ensuring that they can be used interchangeably within the RBAC service for improved performance.
 """
 import time
 from .interfaces import CacheBackend

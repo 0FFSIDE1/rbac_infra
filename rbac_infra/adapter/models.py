@@ -1,4 +1,6 @@
-# adapter/models.py
+"""
+This module defines the Django models for the RBAC infrastructure. It includes models for tenants, roles, permissions, and the relationships between them. The models are designed to support multi-tenancy and to allow for efficient querying of user roles and permissions within a specific tenant context.
+"""
 from django.db import models
 
 class Tenant(models.Model):

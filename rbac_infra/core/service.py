@@ -1,6 +1,7 @@
 """
 Core RBAC service implementation.
 This module contains the main RBACService class which implements the core logic for checking permissions based on user roles and policies.
+The service uses repositories to fetch roles and permissions, and supports caching for improved performance. It also includes a safe wildcard matching mechanism for permissions.
 """
 from typing import Set, List, Optional
 from .interfaces import RoleRepository, PermissionRepository
@@ -26,7 +27,7 @@ class RBACService:
         self.role_repo = role_repo
         self.permission_repo = permission_repo
         self.policies = policies or []
-        self.cache = cache  # instance only
+        self.cache = cache
 
     def _match(self, requested: str, stored: str) -> bool:
         """
