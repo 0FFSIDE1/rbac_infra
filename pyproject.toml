@@ -22,6 +22,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+    "django",
     "pytest",
     "pytest-django",
     "pytest-cov",
