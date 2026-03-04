@@ -319,6 +319,30 @@ The test suite covers:
 
 ---
 
+## Contributing
+- Fork the repo
+- Create a feature branch
+```bash
+git checkout -b feature/awesome
+```
+- Run test after implementing your feature
+```bash
+pytest
+```
+- Commit changes
+```bash
+git commit -m 'Add awesome feature'
+```
+- Push branch and open a PR
+
+## Support
+For enterprise inquiries, please contact offsideint@gmail.com
+
+For bugs, open an issue on GitHub.
+
+Built with ❤️ by OFFSIDE INTEGRATED TECHNOLOGY — because developers do not need hassle wiring RBAC.
+
+
 ## License
 
 MIT
