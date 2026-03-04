@@ -53,6 +53,7 @@ pip install rbac_infra
 ## Add required variable
 ```bash
 REDIS_URL=redis://localhost:6379/0 # (Use your production redis url.)
+```
 
 ### Development dependencies (includes Django + test tools)
 
