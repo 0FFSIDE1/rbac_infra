@@ -6,6 +6,10 @@ from django.db import models
 class Tenant(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
+    def __str__(self):
+        return self.name
+    
+
 
 class Role(models.Model):
     name = models.CharField(max_length=100)
@@ -13,6 +17,10 @@ class Role(models.Model):
 
     class Meta:
         unique_together = ("name", "tenant")
+    
+    def __str__(self):
+        return f"{self.name}:{self.tenant}"
+    
 
 class Permission(models.Model):
     role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="permissions")
@@ -31,10 +39,14 @@ class Permission(models.Model):
     def key(self):
         return f"{self.tenant.name}:{self.action}:{self.resource}"
 
-class RolePermission(models.Model):
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
-    permission = models.ForeignKey(Permission, on_delete=models.CASCADE)
+    def __str__(self):
+        return f"{self.role}:{self.action}:{self.resource}:{self.tenant}"
+    
 
 class UserRole(models.Model):
     user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user}:{self.role}"
+    
