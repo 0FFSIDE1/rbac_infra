@@ -5,7 +5,7 @@ This module also includes the RBACBackend class which integrates the core RBACSe
 """
 from rbac_infra.core.interfaces import RoleRepository, PermissionRepository
 from rbac_infra.core.entities import Permission as CorePermission
-from .models import UserRole, RolePermission, Role, Permission
+from .models import UserRole, Role, Permission
 
 
 class DjangoRoleRepository(RoleRepository):
