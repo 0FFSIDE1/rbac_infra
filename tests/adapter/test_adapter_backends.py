@@ -113,3 +113,25 @@ def test_backend_uses_redis_cache(monkeypatch):
 
     # Second call — should still return True from cache
     assert backend.has_perm(user, "tenant1:read:invoice")
+
+
+@pytest.mark.django_db
+def test_wildcard_grants_permission():
+    user = User.objects.create(username="john")
+    tenant = Tenant.objects.create(name="tenant1")
+
+    role = Role.objects.create(name="admin", tenant=tenant)
+    Permission.objects.create(
+        role=role,
+        action="*",
+        resource="*",
+        tenant=tenant,
+    )
+    UserRole.objects.create(user=user, role=role)
+
+    backend = RBACBackend()
+
+    assert backend.has_perm(
+        user,
+        "tenant1:invite:user"
+    )
