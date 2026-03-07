@@ -87,3 +87,63 @@ def test_resource_wildcard():
     assert service.check(
         "user1", "tenant1", "read", "invoice"
     )
+
+
+def test_user_cannot_access_other_tenant_data():
+
+    role_map = {
+        ("user1", "tenant1"): ["admin"],
+    }
+
+    perm_map = {
+        ("admin", "tenant1"): [
+            Permission("*", "*", "tenant1")
+        ]
+    }
+
+    service = RBACService(
+        role_repo=FakeRoleRepo(role_map),
+        permission_repo=FakePermissionRepo(perm_map),
+    )
+
+    # user has full access in tenant1
+    assert service.check(
+        user_id="user1",
+        tenant_id="tenant1",
+        action="read",
+        resource="invoice"
+    )
+
+    # but should NOT access tenant2
+    with pytest.raises(AccessDenied):
+        service.check(
+            user_id="user1",
+            tenant_id="tenant2",
+            action="read",
+            resource="invoice"
+        )
+
+def test_wildcard_cannot_escape_tenant():
+
+    role_map = {
+        ("user1", "tenant1"): ["admin"],
+    }
+
+    perm_map = {
+        ("admin", "tenant1"): [
+            Permission("*", "*", "tenant1")
+        ]
+    }
+
+    service = RBACService(
+        FakeRoleRepo(role_map),
+        FakePermissionRepo(perm_map),
+    )
+
+    with pytest.raises(AccessDenied):
+        service.check(
+            "user1",
+            "tenant2",
+            "delete",
+            "invoice"
+        )

@@ -66,7 +66,3 @@ class RBACBackend(BaseBackend):
             )
         except AccessDenied:
             return False
-
-    def authenticate(self, request, username=None, password=None):
-        # Authorization only
-        return None
