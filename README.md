@@ -55,10 +55,10 @@ pip install rbac_infra
 REDIS_URL=redis://localhost:6379/0 # (Use your production redis url.)
 ```
 
-### Development dependencies (includes Django + test tools)
+### Local Development (includes Django + test tools)
 
 ```bash
-pip install -e .[dev]
+git clone "[repo_url](https://github.com/0FFSIDE1/rbac_infra.git)"
 ```
 
 ---
@@ -68,7 +68,7 @@ pip install -e .[dev]
 ### 1. Permission model
 
 Permissions are represented as:
-
+- `role`
 - `tenant_id`
 - `action`
 - `resource`
