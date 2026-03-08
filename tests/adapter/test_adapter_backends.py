@@ -19,7 +19,7 @@ def test_backend_grants_permission():
         resource="invoice",
         tenant=tenant,
     )
-    UserRole.objects.create(user=user, role=role)
+    UserRole.objects.create(user=user, role=role, tenant=tenant)
 
     backend = RBACBackend()
 
@@ -41,7 +41,7 @@ def test_backend_denies_permission():
         resource="invoice",
         tenant=tenant,
     )
-    UserRole.objects.create(user=user, role=role)
+    UserRole.objects.create(user=user, role=role, tenant=tenant)
 
     backend = RBACBackend()
 
@@ -64,7 +64,7 @@ def test_backend_cross_tenant_denied():
         resource="invoice",
         tenant=tenant1,
     )
-    UserRole.objects.create(user=user, role=role)
+    UserRole.objects.create(user=user, role=role, tenant=tenant1)
 
     backend = RBACBackend()
 
@@ -96,7 +96,7 @@ def test_backend_uses_redis_cache(monkeypatch):
         resource="invoice",
         tenant=tenant,
     )
-    UserRole.objects.create(user=user, role=role)
+    UserRole.objects.create(user=user, role=role, tenant=tenant)
 
     cache = RedisCache()
     backend = RBACBackend()
@@ -127,7 +127,7 @@ def test_wildcard_grants_permission():
         resource="*",
         tenant=tenant,
     )
-    UserRole.objects.create(user=user, role=role)
+    UserRole.objects.create(user=user, role=role, tenant=tenant)
 
     backend = RBACBackend()
 

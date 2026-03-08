@@ -34,7 +34,7 @@ def test_django_role_repository():
     tenant = Tenant.objects.create(name="t")
     role = Role.objects.create(name="admin", tenant=tenant)
 
-    UserRole.objects.create(user=user, role=role)
+    UserRole.objects.create(user=user, role=role, tenant=tenant)
 
     repo = DjangoRoleRepository()
 
