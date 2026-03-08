@@ -17,7 +17,8 @@ dynamic = ["version"]
 
 dependencies = [
     "redis",
-    "python-dotenv"
+    "python-dotenv",
+    "djangorestframework"
 ]
 
 [project.optional-dependencies]
