@@ -16,7 +16,16 @@ class Role(models.Model):
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ("name", "tenant")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["id", "tenant"],
+                name="unique_role_tenant_pair"
+            ),
+            models.UniqueConstraint(
+                fields=["name", "tenant"],
+                name="unique_role_name_per_tenant"
+            ),
+        ]
     
     def __str__(self):
         return f"{self.name}:{self.tenant}"
@@ -44,8 +53,26 @@ class Permission(models.Model):
     
 
 class UserRole(models.Model):
-    user = models.ForeignKey("auth.User", on_delete=models.CASCADE)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    user = models.ForeignKey("auth.User", on_delete=models.CASCADE, db_index=True)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, db_index=True)
+    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE, db_index=True)
+
+
+    def clean(self):
+        if self.role.tenant_id != self.tenant_id:
+            raise ValidationError("Role tenant must match UserRole tenant")
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "tenant"],
+                name="unique_user_role_per_tenant"
+            ),
+            models.UniqueConstraint(
+                fields=["role", "tenant"],
+                name="role_must_match_tenant"
+            ),
+        ]
 
     def __str__(self):
         return f"{self.user}:{self.role}"
